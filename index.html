@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/master.css">
+    <link rel="stylesheet" href="css/output.css">
+    <link rel="stylesheet" href="icon/bootstrap-icons.min.css">
+
+    <style>
+        body{
+            font-family: cursive;
+        }
+        .li_class{
+            position: relative;
+            font-size: 20px;
+            color:#50514f;
+            text-align: start;
+            border-bottom: 2px solid #50514f;
+            width: 90%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 3px;
+            
+            >div{
+                display: flex;
+                align-items: center;
+                justify-content: end;
+                >*{
+                    margin:0 5px;
+                }
+            }
+        
+        }
+    </style>
+</head>
+<body class="font-medium">
+    <main class="w-full h-[100vh] bg-pinkk flex flex-wrap justify-center content-start">
+        <div class="w-full flex justify-center">
+            <h1 class=" text-center text-[30px] lg:text-[50px] text-Gray border-4 w-[90%] lg:w-[50%] py-5 mt-10 bg-white">My ToDo List</h1>
+        </div>
+        
+        <section class="w-[90%] lg:w-[50%] flex flex-wrap justify-center content-center text-Gray border-4 bg-white mt-2">
+            <div class="w-full border-b-4 ">
+                <ul class="w-full flex justify-center items-center bg-yell py-3">
+                    <li class="text-center text-Gray w-[30%] text-[20px] lg:text-[30px] flex flex-wrap justify-center content-center">
+                        <button class="bt1 w-full hover:scale-90">ALL</button>
+                        <div class="line transition-all duration-500 w-[0] text-center h-[3px] bg-Gray"></div>
+                    </li>
+                    <li class="text-center text-Gray w-[30%] text-[20px] lg:text-[30px] flex flex-wrap justify-center content-center">
+                        <button class="bt2 w-full hover:scale-90">PENDING</button>
+                        <div class="line transition-all duration-500 w-0 text-center h-[3px] bg-Gray"></div>
+                    </li>
+                    <li class="text-center text-Gray w-[30%] text-[20px] lg:text-[30px] flex flex-wrap justify-center content-center">
+                        <button class="bt3 w-full hover:scale-90">DONE</button>
+                        <div class="line transition-all duration-500 w-0 text-center h-[3px] bg-Gray"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="relative w-full border-b-4 bg-white h-[400px] flex flex-wrap justify-center items-center">
+                <ul id="pending" class="w-[90%] flex flex-wrap justify-center content-center border-4 text-Gray absolute h-[300px] overflow-scroll opacity-0 hover:bg-ligthGray"></ul>
+                <ul id="done" class="w-[90%] flex flex-wrap justify-center content-center border-4 text-Gray absolute h-[300px] overflow-scroll opacity-0 hover:bg-ligthGray"></ul>
+                <ul id="all" class="w-[90%] flex flex-wrap justify-center content-center border-4 text-Gray relative h-[300px] overflow-scroll  hover:bg-ligthGray"></ul>
+
+            </div>
+            <div class="w-full text-center text-Gray text-[30px] h-[80px] relative bg-blu">
+                
+                <div id="register" class="w-full absolute top-[0] left-0  justify-between content-center p-3 opacity-0 flex ">
+                    <input id="name" class="border-4 text-Gray bg-transparent hover:bg-white hover:text-blu transition-all duration-300 w-[60%]" type="text" placeholder="do something?">
+                    <button id="submit" class="w-[30%] border-4 text-Gray mx-8 hover:bg-white hover:text-blu transition-all duration-300">Submit</button>
+                    <button id="btn_close" class="w-[10%]"><i class="bi bi-x-lg "></i></button>
+                </div>
+
+                <button id="btn_register" class="trans w-full text-center absolute top-0 left-0 h-full cursor-pointer z-10 hover:scale-90 transition-all duration-100">NEW THING TO DO?</button>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script>
+        let reg = document.getElementById('register')
+        let btn_reg = document.getElementById('btn_register')
+        let name = document.getElementById('name')
+        let ul_all = document.getElementById('all')
+        let ul_done = document.getElementById('done')
+        let ul_pending = document.getElementById('pending')
+        let li_in_all = document.querySelectorAll('#all>li')
+        let li_in_pending = document.querySelectorAll('#pending>li')
+        li_in_done = document.querySelectorAll('#done>li')
+        let bt1 = document.getElementById('bt1')
+        let bt2 = document.getElementById('bt2')
+        let bt3 = document.getElementById('bt3')
+        let lines = document.getElementsByClassName('line')
+
+        document.getElementById('btn_register').addEventListener('click',(e)=>{
+      
+            e.target.style.opacity=0
+            reg.style.opacity=1
+            reg.style.zIndex='20'
+        })
+        
+        document.getElementById('btn_close').addEventListener('click',(e)=>{
+
+            btn_reg.style.opacity=1
+            reg.style.opacity=0
+            reg.style.zIndex=0
+        })
+        document.getElementById('submit').addEventListener('click',(e)=>{
+            if(name.value.length>3){
+                let _li = document.createElement('li')
+                _li.classList.add('li_class')
+                _li.innerHTML = `
+                <strong contenteditable ">${name.value}</strong>
+                <div>
+                    <button onclick="_remove(event)" id="del" pointer><i class="bi bi-trash-fill"></i></button>
+                    <button onclick="_edit(event)" id="edit" pointer><i class="bi bi-pencil-fill"></i></button>
+                    <input onclick="move_to_done()" id="state" type='checkbox' style="width:20px; height:20px;">
+                </div> 
+                `
+                ul_all.appendChild(_li)
+                name.value =''
+                name.focus()
+            }
+            else{
+                alert('fill the blank please')
+            }
+        })
+
+        function move_to_done(){
+            while (ul_done.firstChild) {
+                ul_done.removeChild(ul_done.firstChild);
+            }
+            let li_in_all = document.querySelectorAll('#all>li')
+            li_in_all.forEach((val)=>{
+                let firstchildren = val.children 
+                let secondchildren = firstchildren[1].children
+                if(secondchildren[2].checked == true){
+                    let v = firstchildren[0].innerHTML
+                    console.log(v);
+                    let _li = document.createElement('li')
+                    _li.classList.add('li_class')
+                    _li.innerHTML = `
+                    <strong contenteditable ">${v}</strong>
+                    <div>
+                        <button onclick="_remove(event)" id="del" pointer><i class="bi bi-trash-fill"></i></button>
+                        <button onclick="_edit(event)" id="edit" pointer><i class="bi bi-pencil-fill"></i></button>
+                    </div> 
+                    `
+                    ul_done.appendChild(_li)
+                }
+            })
+            li_in_done = document.querySelectorAll('#done>li')
+        }
+        
+        
+        // function move_to_done(e){
+        //     let v = e.target.parentElement.previousElementSibling.innerHTML
+        //     // console.log(v);
+        //     let _li = document.createElement('li')
+        //     _li.classList.add('li_class')
+        //     _li.innerHTML = `
+        //     <strong contenteditable ">${v}</strong>
+        //     <div>
+        //         <button onclick="_remove(event)" id="del" pointer><i class="bi bi-trash-fill"></i></button>
+        //         <button onclick="_edit(event)" id="edit" pointer><i class="bi bi-pencil-fill"></i></button>
+        //     </div> 
+        //     `
+        //     ul_done.appendChild(_li)
+        // }
+         
+        function move_to_depending(){
+       
+            while (ul_pending.firstChild) {
+                ul_pending.removeChild(ul_pending.firstChild);
+            }
+            let li_in_all = document.querySelectorAll('#all>li')
+            li_in_all.forEach((val)=>{
+                let firstchildren = val.children 
+                let secondchildren = firstchildren[1].children
+                if(secondchildren[2].checked != true){
+                    let v = firstchildren[0].innerHTML
+                    console.log(v);
+                    let _li = document.createElement('li')
+                    _li.classList.add('li_class')
+                    _li.innerHTML = `
+                    <strong contenteditable ">${v}</strong>
+                    <div>
+                        <button onclick="_remove(event)" id="del" pointer><i class="bi bi-trash-fill"></i></button>
+                        <button onclick="_edit(event)" id="edit" pointer><i class="bi bi-pencil-fill"></i></button>
+                    </div> 
+                    `
+                    ul_pending.appendChild(_li)
+                }
+            })
+            li_in_pending = document.querySelectorAll('#pending>li')
+        }
+
+
+        document.getElementsByClassName('bt1')[0].addEventListener('click',(e)=>{
+            for(let j=0;j<lines.length;j++){
+                lines[j].style.width = '0'
+            }
+            e.target.nextElementSibling.style.width = '150px'
+            ul_all.style.opacity=1
+            ul_done.style.opacity=0
+            ul_pending.style.opacity=0
+            ul_pending.style.zIndex =0
+            ul_done.style.zIndex =0
+            ul_all.style.zIndex = '30'
+
+        })
+        document.getElementsByClassName('bt2')[0].addEventListener('click',(e)=>{
+            for(let j=0;j<lines.length;j++){
+                lines[j].style.width = '0'
+            }
+            e.target.nextElementSibling.style.width = '150px'
+            move_to_depending()
+            ul_all.style.opacity=0
+            ul_done.style.opacity=0
+            ul_pending.style.opacity=1
+            ul_all.style.zIndex = 0
+            ul_done.style.zIndex = 0
+            ul_pending.style.zIndex = '30'
+ 
+
+        })
+        document.getElementsByClassName('bt3')[0].addEventListener('click',(e)=>{
+            for(let j=0;j<lines.length;j++){
+                lines[j].style.width = '0'
+            }
+            e.target.nextElementSibling.style.width = '100px'
+            move_to_done()
+
+            ul_all.style.opacity=0
+            ul_pending.style.opacity=0
+            ul_done.style.opacity=1
+            ul_all.style.zIndex = 0
+            ul_done.style.zIndex = '30'
+            ul_pending.style.zIndex =0
+
+        })
+        function _remove(e){
+            e.target.parentElement.parentElement.parentElement.remove()
+        }
+        function _edit(e){
+            let x = e.target.parentElement.parentElement.previousElementSibling
+            x.classList.toggle('bg-Gray')
+            x.classList.toggle('text-white')
+
+        }
+    
+    </script>
+    
+</body>
+</html>
