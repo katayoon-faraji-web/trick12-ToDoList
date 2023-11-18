@@ -1,6 +1,6 @@
 # trick12-ToDoList
 
-- [Demo Project](https://katayoon-faraji-web.github.io/trick11-accordion/)
+- [Demo Project](https://katayoon-faraji-web.github.io/trick12-ToDoList/)
 
 - Developed by katayoon faraji
 
