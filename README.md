@@ -5,7 +5,7 @@ https://github.com/katayoon-faraji-web/trick12-ToDoList/assets/144775981/b4a197c
 
 - Developed by katayoon faraji
 
-- 🗓️Created - 2023-12
+- 🗓️Created - 2023-11
 
 - 💻Technologies Used - Html , Tailwind ,Javascript
 
