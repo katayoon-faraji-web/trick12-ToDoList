@@ -1,7 +1,7 @@
 # trick12-ToDoList
 ![pic](https://github.com/katayoon-faraji-web/trick12-ToDoList/assets/144775981/775edfe5-682a-4c96-a0c4-af8e2d0f8b75)
 
-- [Demo Project](https://katayoon-faraji-web.github.io/trick32-XOgame/)
+- [Demo Project](https://katayoon-faraji-web.github.io/trick12-ToDoList/)
 
 - Developed by katayoon faraji
 
