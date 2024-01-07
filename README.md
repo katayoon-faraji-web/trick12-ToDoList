@@ -9,7 +9,7 @@ https://github.com/katayoon-faraji-web/trick12-ToDoList/assets/144775981/b4a197c
 
 - 💻Technologies Used - Html , Tailwind ,Javascript
 
-- Responsive
+- Responsive 
   
 - Role - Frontend
 
